@@ -1,12 +1,14 @@
 #ifndef _SCREEN_H_
 #define _SCREEN_H_
 #include <list>
-#include "bomb.h"
+//#include "bomb.h"
 #include "texture.h"
 
 using namespace std;
 
-int step = 40;
+const int step = 40;
+const int arr_w = 15, arr_h = 13;
+
 int calculateIndex (int x)
 {
 	x += (step - 10);
@@ -16,62 +18,77 @@ int calculateIndex (int x)
 
 class screen
 {
+	int arr [arr_h][arr_w];
+	bool run;
+
 public:
-	
-	int arr [13][15];
-
-	//int w, h;
-	// 0 - free
-	// 1 - hero
-	// 2 - obj
-	// 3 - enemy
-	// 4 - beaton
-	// 5 - bonus
-	// 6 - exit
-
-
 	void clearScreen()
 	{
-		for (int i = 2; i < 12; i++)
-			for ( int j=0; j<14; j++)
+		
+		for (int i = 0; i < arr_h - 1; i++)
+		{
+			for ( int j=0; j < arr_w - 1; j++)
 				arr[i][j] = 0;
+		}
+		
+		for (int i = 0; i < arr_h; i++)
+			arr[i][0] = 4;
+		
+		for (int i = 0; i < arr_h; i++)
+			arr[i][14] = 4;
+		
+		for (int i = 0; i < arr_w; i++)
+			arr[0][i] = 4;
+
+		for (int i = 0; i < arr_w; i++)
+			arr[12][i] = 4;
+
+		run = true;
 	}
+
 	screen ()
 	{
 		clearScreen();
 	}
-
-	/*
-	screen(screen& tmp)
+	void print()
 	{
-		for (int i = 0; i < 13; i++)
-			for ( int j=0; j<15; j++)
-				arr[i][j] = tmp.arr[i][j];
+		for (int i = 0; i < arr_h; i++)
+		{
+			for ( int j=0; j < arr_w; j++)
+				std::cout<<arr[i][j]<<" ";
+			std::cout<<" "<<std::endl;
+		}
 	}
-	*/
-	void Draw(int w, int h, unsigned int texture)
+
+	void setRun ( const bool& r )
 	{
-		glEnable (GL_TEXTURE_2D);
-		glBindTexture (GL_TEXTURE_2D, texture);
-
-		glColor3f( 1.0, 1.0, 1.0);
-		glLineWidth ( 2.0 );		
-		glBegin (GL_QUADS);
-			glTexCoord2f ( 0.0, 0.0);
-			glVertex2i( 0 , 0);
-			
-			glTexCoord2f ( 0.0, 1.0);
-			glVertex2i( 0 , h);
-
-			glTexCoord2f ( 1.0, 1.0);
-			glVertex2i( w , h);
-
-			glTexCoord2f ( 1.0, 0.0);
-			glVertex2i( w , 0);
-			
-		glEnd();
-
-		glFlush();
+		run = r;
 	}
+
+	bool getRun ()
+	{
+		return run;
+	}
+
+	void setArrayElement (const int& k, const int& i, const int& j)
+	{
+		arr[i][j] = k;
+	}
+
+	int getArrayElement (const int& i, const int& j)
+	{
+		return arr[i][j];
+	}
+
 };
+
+
+int youLose(screen& scrn)
+{
+
+	std::cout<<"QQ"<<std::endl;
+	scrn.setRun(false);
+	return 0;
+}
+
 #endif

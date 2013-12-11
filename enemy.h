@@ -11,24 +11,25 @@ public:
 	enemy(): l (170), r(210), b(170), t(210), dir(0) {}
 	enemy( int _l, int _r, int _b, int _t, screen& scrn): l (_l), r(_r), b(_b), t(_t), dir(0) 
 	{
-		scrn.arr[calculateIndex(b)][calculateIndex (l)] = 3;
+		scrn.setArrayElement(3, calculateIndex(b),calculateIndex (l));
 	}
 	enemy( enemy* x): l (x->l), r(x->r), b(x->b), t(x->t), dir(x->dir) {}
 	
 	void MoveL (screen& scrn, hero& mhero)
 	{
-		switch (scrn.arr[calculateIndex(b)][calculateIndex (l - step)])
+		switch (scrn.getArrayElement(calculateIndex(b), calculateIndex (l - step)) )
 		{
 			case 0:
 				{
-					scrn.arr[calculateIndex(b)][calculateIndex (l)] = 0;
+					scrn.setArrayElement( 0, calculateIndex(b), calculateIndex (l));
 					l -= step;
 					r -= step;
-					scrn.arr[calculateIndex(b)][calculateIndex (l)] = 3;
+					scrn.setArrayElement(3, calculateIndex(b), calculateIndex (l));
 				}
 				break;
 			case 1:
 				{
+					youLose(scrn);
 					mhero.Damaged();
 				}
 				break;
@@ -44,18 +45,19 @@ public:
 	}
 	void MoveR (screen& scrn, hero& mhero)
 	{
-		switch (scrn.arr [calculateIndex(b)][calculateIndex (l + step)])
+		switch (scrn.getArrayElement(calculateIndex(b), calculateIndex (l + step)))
 		{
 			case 0:
 				{
-					scrn.arr[calculateIndex(b)][calculateIndex (l)] = 0;
+					scrn.setArrayElement(0, calculateIndex(b), calculateIndex (l));
 					l += step;
 					r += step;
-					scrn.arr[calculateIndex(b)][calculateIndex (l)] = 3;
+					scrn.setArrayElement(3, calculateIndex(b),calculateIndex (l));
 				}
 				break;
 			case 1:
 				{
+					youLose(scrn);
 					mhero.Damaged();
 				}
 				break;
@@ -71,18 +73,19 @@ public:
 	}
 	void MoveU (screen& scrn, hero& mhero)
 	{
-		switch (scrn.arr[calculateIndex(b+step)][calculateIndex (l)])
+		switch (scrn.getArrayElement(calculateIndex(b+step), calculateIndex (l)))
 		{
 		case 0:
 			{
-				scrn.arr[calculateIndex(b)][calculateIndex (l)] = 0;
+				scrn.setArrayElement(0, calculateIndex(b), calculateIndex (l));
 				b += step;
 				t += step;
-				scrn.arr[calculateIndex(b)][calculateIndex (l)] = 3;
+				scrn.setArrayElement(3, calculateIndex(b), calculateIndex (l));
 			}
 				break;
 		case 1:
 			{
+				youLose(scrn);
 				mhero.Damaged();
 				break;
 			}
@@ -98,19 +101,20 @@ public:
 	}
 	void MoveD (screen& scrn, hero& mhero)
 	{
-		switch (scrn.arr[calculateIndex(b-step)][calculateIndex (l)])
+		switch (scrn.getArrayElement(calculateIndex(b-step),calculateIndex (l)))
 		{
 		case 0:
 			{
-				scrn.arr[calculateIndex(b)][calculateIndex (l)] = 0;
+				scrn.setArrayElement(0, calculateIndex(b), calculateIndex (l));
 				b -= step;
 				t -= step;
-				scrn.arr[calculateIndex(b)][calculateIndex (l)] = 3;
+				scrn.setArrayElement(3, calculateIndex(b), calculateIndex (l));
 			}
 			break;
 		case 1:
 			{
-					mhero.Damaged();
+				youLose(scrn);
+				mhero.Damaged();
 			}
 			break;
 		case 2:
@@ -134,21 +138,6 @@ public:
 			MoveU (scrn, mhero);
 		if (dir == 3)
 			MoveD (scrn, mhero);
-	}
-	
-	void drawHero()
-	{
-		//motion();
-		glLineWidth ( 2.0 );		
-		glColor3f(1.0, 0 , 0 );
-		glBegin (GL_QUADS);
-			glVertex2i( l , b);
-			glVertex2i( l , t);
-			glVertex2i( r , t);
-			glVertex2i( r , b);
-			glVertex2i( l , b);
-		glEnd();
-		glFlush();
 	}
 };
 
