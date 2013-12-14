@@ -10,13 +10,8 @@ public:
 
 	brick (int _l,int _r, int _b, int _t, screen& scrn): l(_l), r(_r), b(_b), t(_t)
 	{
-		sf::Texture texture;
-		texture.loadFromFile("brick.png");
-		sprite.setTexture(texture);
-		sprite.setPosition(sf::Vector2f(l, b));
-
 		scrn.setArrayElement (2, calculateIndex(b), calculateIndex (l));
-    }
+    	}
 };
 
 bool operator == (const brick& b1, const brick& b2)
