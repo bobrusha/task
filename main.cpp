@@ -11,9 +11,6 @@ const int max_num_lvls = 4;
 
 unsigned int textures[30];
 unsigned int NUM_LVL = 0;
-//---------------------
-//MENU
-
 
 //--------------------
 //game's objects
@@ -145,10 +142,6 @@ void startNewGame()
 	createLevel();
 }
 
-/*
-void boom (int);
-void enemyMotion(int);
-*/
 //-----------------------------------
 void bomb::damage(sf::RenderWindow& window, sf::Sprite& sprFire)
 {
@@ -321,7 +314,6 @@ void eventsInGame(sf::Event &event, sf::RenderWindow &window)
 			break;
 			case (sf::Keyboard::A):
 			{
-				//NUM_LVL++;
 				enemies.clear();
 				//scrn.clearScreen();
 			}
@@ -390,7 +382,6 @@ void youWin (sf::Text & txt, sf::Font & font)
 {
 	txt.setFont(font); // font is a sf::Font
 
-				// set the string to display
 	txt.setString("You win !!!");
 	txt.setColor(sf::Color::Black);
 	txt.setPosition(100,100);
